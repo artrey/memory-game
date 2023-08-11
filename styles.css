@@ -55,10 +55,40 @@ body {
 .score {
   position: absolute;
   top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
   font-size: 24px;
   color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+}
+
+.player1 {
+  flex: 1;
+  text-align: left;
+}
+
+.player2 {
+  flex: 1;
+  text-align: right;
+}
+
+#player1Score,
+#player2Score {
+  padding: 0.2em;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  width: 1.5em;
+  display: inline-block;
+  text-align: center;
+}
+
+.current-turn {
+  flex: 1;
+  text-align: center;
 }
 
 .modal {
