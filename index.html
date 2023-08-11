@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Игра в память</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="score">
+      Игрок 1: <span id="player1Score">0</span> | Игрок 2:
+      <span id="player2Score">0</span> | Ход:
+      <span id="currentPlayer">Игрок 1</span>
+    </div>
+    <div class="grid"></div>
+
+    <div class="modal settings" id="settingsModal">
+      <div class="modal-content">
+        <h2>Выберите размер поля</h2>
+        <div class="board-params">
+          <div>
+            Ширина:
+            <select id="fieldWidth">
+              <option value="2">2</option>
+              <option value="4" selected>4</option>
+              <option value="6">6</option>
+              <option value="8">8</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+          <div>
+            Высота:
+            <select id="fieldHeight">
+              <option value="2">2</option>
+              <option value="4" selected>4</option>
+              <option value="6">6</option>
+              <option value="8">8</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
+        <button id="startGame">Начать игру</button>
+      </div>
+    </div>
+
+    <div class="modal" id="winModal">
+      <div class="modal-content">
+        <h2 id="winnerAnnouncement"></h2>
+        <button id="playAgain">Сыграть ещё раз</button>
+      </div>
+    </div>
+
+    <script src="icons.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
