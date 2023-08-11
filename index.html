@@ -16,10 +16,10 @@
 
     <div class="modal settings" id="settingsModal">
       <div class="modal-content">
-        <h2>Выберите размер поля</h2>
+        <h2>Настройки игры</h2>
         <div class="board-params">
           <div>
-            <span>Ширина:</span>
+            <span>Ширина</span>
             <select id="fieldWidth">
               <option value="2">2</option>
               <option value="4" selected>4</option>
@@ -29,14 +29,18 @@
             </select>
           </div>
           <div>
-            <span>Противник:</span>
+            <span>Противник</span>
             <select id="opponentType">
-              <option value="computer" selected>Компьютер</option>
-              <option value="human">Человек</option>
+              <option value="human" selected>Человек</option>
+              <option value="computer-random">Шальной бот</option>
+              <option value="computer-weak">Слабый бот</option>
+              <option value="computer-normal">Нормальный бот</option>
+              <option value="computer-strong">Сильный бот</option>
+              <option value="computer-unfair">Нечестный бот</option>
             </select>
           </div>
           <div>
-            <span>Высота:</span>
+            <span>Высота</span>
             <select id="fieldHeight">
               <option value="2">2</option>
               <option value="4" selected>4</option>

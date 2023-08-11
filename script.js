@@ -1,3 +1,13 @@
+const maxBoradSize = 10;
+
+const availableBotsMemory = {
+  "computer-random": 0,
+  "computer-weak": 3,
+  "computer-normal": 7,
+  "computer-strong": 15,
+  "computer-unfair": maxBoradSize * maxBoradSize,
+};
+
 document.addEventListener("DOMContentLoaded", function () {
   let cardsArray = [];
   let grid = document.querySelector(".grid");
@@ -7,6 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let player2Score = 0;
   let currentPlayer = 1;
   let opponentType = "human";
+  let botMemoryLength = 0;
+  let botMemory = [];
 
   const player1ScoreElement = document.getElementById("player1Score");
   const player2ScoreElement = document.getElementById("player2Score");
@@ -32,6 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
     cardsArray = shuffle(cardsArray);
 
     opponentType = opponentType_;
+    botMemoryLength = availableBotsMemory[opponentType] || 0;
+    botMemory = [];
 
     // Очищаем игровое поле
     grid.innerHTML = "";
@@ -82,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (firstCard === null) {
       firstCard = this;
       this.classList.add("flipped");
+      tryAddCardToBotMemory(firstCard);
     } else if (secondCard === null) {
       secondCard = this;
       this.classList.add("flipped");
@@ -97,11 +112,15 @@ document.addEventListener("DOMContentLoaded", function () {
           player2Score++;
           player2ScoreElement.innerText = player2Score;
         }
+        botMemory = botMemory.filter(
+          (x) => x.dataset.value !== firstCard.dataset.value
+        );
 
         checkEndGame(); // Проверка на завершение игры
 
         resetCards();
       } else {
+        tryAddCardToBotMemory(secondCard);
         setTimeout(() => {
           firstCard.classList.remove("flipped");
           secondCard.classList.remove("flipped");
@@ -121,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
     currentPlayer = currentPlayer === 1 ? 2 : 1;
     currentPlayerElement.innerText = `Игрок ${currentPlayer}`;
 
-    if (opponentType === "computer" && currentPlayer === 2) {
+    if (opponentType !== "human" && currentPlayer === 2) {
       setTimeout(computerPlay, 1000);
     }
   }
@@ -177,13 +196,47 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll(".card:not(.flipped)")
     );
     if (unflippedCards.length === 0) return;
-    let randomCard =
-      unflippedCards[Math.floor(Math.random() * unflippedCards.length)];
+
+    let selectedCard = selectBestCard();
+    if (!selectedCard) {
+      if (botMemory.length > 0) {
+        unflippedCards = unflippedCards.filter((x) => !botMemory.includes(x));
+      }
+      selectedCard =
+        unflippedCards[Math.floor(Math.random() * unflippedCards.length)];
+    }
 
     setTimeout(() => {
-      randomCard.click();
+      selectedCard.click();
       if (currentPlayer !== 2) return;
       computerPlay();
     }, 700);
+  }
+
+  function tryAddCardToBotMemory(card) {
+    if (botMemoryLength === 0) return;
+
+    if (botMemory.includes(card)) return;
+
+    if (botMemory.length >= botMemoryLength) {
+      botMemory.shift();
+    }
+
+    botMemory.push(card);
+  }
+
+  function selectBestCard() {
+    if (firstCard) {
+      return botMemory
+        .filter((x) => x !== firstCard)
+        .find((x) => x.dataset.value === firstCard.dataset.value);
+    }
+
+    const values = botMemory.map((x) => x.dataset.value);
+    const duplicated = values.find((x, index) => index !== values.indexOf(x));
+    if (!duplicated) return null;
+
+    const index = values.indexOf(duplicated);
+    return botMemory[index];
   }
 });
