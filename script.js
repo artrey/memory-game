@@ -6,12 +6,14 @@ document.addEventListener("DOMContentLoaded", function () {
   let player1Score = 0;
   let player2Score = 0;
   let currentPlayer = 1;
+  let opponentType = "human";
+
   const player1ScoreElement = document.getElementById("player1Score");
   const player2ScoreElement = document.getElementById("player2Score");
   const currentPlayerElement = document.getElementById("currentPlayer");
 
   // Функция инициализации игры
-  function initializeGame(width, height) {
+  function initializeGame(width, height, opponentType_) {
     // Закрыть модальное окно настроек
     document.getElementById("settingsModal").style.display = "none";
 
@@ -28,6 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Перемешиваем карточки
     cardsArray = shuffle(cardsArray);
+
+    opponentType = opponentType_;
 
     // Очищаем игровое поле
     grid.innerHTML = "";
@@ -61,12 +65,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedHeight = parseInt(
       document.getElementById("fieldHeight").value
     );
-    initializeGame(selectedWidth, selectedHeight);
+    const selectedOpponentType = document.getElementById("opponentType").value;
+    initializeGame(selectedWidth, selectedHeight, selectedOpponentType);
   });
 
-  document.getElementById("playAgain").addEventListener("click", function () {
-    resetGame();
-  });
+  document.getElementById("playAgain").addEventListener("click", resetGame);
 
   function flipCard() {
     if (
@@ -102,9 +105,9 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
           firstCard.classList.remove("flipped");
           secondCard.classList.remove("flipped");
-          switchPlayer(); // Если не найдена пара, переключаем игрока
           resetCards();
         }, 1000);
+        switchPlayer(); // Если не найдена пара, переключаем игрока
       }
     }
   }
@@ -117,6 +120,10 @@ document.addEventListener("DOMContentLoaded", function () {
   function switchPlayer() {
     currentPlayer = currentPlayer === 1 ? 2 : 1;
     currentPlayerElement.innerText = `Игрок ${currentPlayer}`;
+
+    if (opponentType === "computer" && currentPlayer === 2) {
+      setTimeout(computerPlay, 1000);
+    }
   }
 
   function checkEndGame() {
@@ -163,5 +170,20 @@ document.addEventListener("DOMContentLoaded", function () {
       ];
     }
     return array;
+  }
+
+  function computerPlay() {
+    let unflippedCards = Array.from(
+      document.querySelectorAll(".card:not(.flipped)")
+    );
+    if (unflippedCards.length === 0) return;
+    let randomCard =
+      unflippedCards[Math.floor(Math.random() * unflippedCards.length)];
+
+    setTimeout(() => {
+      randomCard.click();
+      if (currentPlayer !== 2) return;
+      computerPlay();
+    }, 700);
   }
 });
