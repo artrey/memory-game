@@ -2,17 +2,45 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <title>Игра в память</title>
     <link href="styles.css" rel="stylesheet" />
+    <script src="https://yandex.ru/games/sdk/v2"></script>
+    <script>
+      YaGames.init()
+        .then((ysdk) => {
+          console.log("YaGames init");
+          window.ysdk = ysdk;
+
+          const player1NameElement = document.getElementById("player1Name");
+          const currentPlayerElement = document.getElementById("currentPlayer");
+          ysdk
+            .getPlayer()
+            .then((yaGamePlayer) => {
+              player1NameElement.innerText = yaGamePlayer.getName();
+              currentPlayerElement.innerText = player1NameElement.innerText;
+            })
+            .catch(console.log);
+        })
+        .catch(console.log);
+    </script>
   </head>
   <body>
     <div class="score">
-      <div class="player1">Игрок 1: <span id="player1Score">0</span></div>
+      <div class="player1">
+        <span id="player1Name">Игрок 1</span>: <span id="player1Score">0</span>
+      </div>
       <div class="current-turn">
         Ход: <span id="currentPlayer">Игрок 1</span>
       </div>
-      <div class="player2">Игрок 2: <span id="player2Score">0</span></div>
+      <div class="player2">
+        <span id="player2Name">Игрок 2</span>: <span id="player2Score">0</span>
+      </div>
     </div>
     <div class="grid"></div>
 

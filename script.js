@@ -8,6 +8,15 @@ const availableBotsMemory = {
   "computer-unfair": maxBoradSize * maxBoradSize,
 };
 
+const player2Names = {
+  human: "Игрок 2",
+  "computer-random": "Шальной бот",
+  "computer-weak": "Слабый бот",
+  "computer-normal": "Нормальный бот",
+  "computer-strong": "Сильный бот",
+  "computer-unfair": "Нечестный бот",
+};
+
 document.addEventListener("DOMContentLoaded", function () {
   let cardsArray = [];
   let grid = document.querySelector(".grid");
@@ -22,6 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const player1ScoreElement = document.getElementById("player1Score");
   const player2ScoreElement = document.getElementById("player2Score");
+  const player1NameElement = document.getElementById("player1Name");
+  const player2NameElement = document.getElementById("player2Name");
   const currentPlayerElement = document.getElementById("currentPlayer");
 
   // Функция инициализации игры
@@ -46,6 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
     opponentType = opponentType_;
     botMemoryLength = availableBotsMemory[opponentType] || 0;
     botMemory = [];
+
+    player2NameElement.innerText = player2Names[opponentType] || "Игрок 2";
 
     // Очищаем игровое поле
     grid.innerHTML = "";
@@ -138,7 +151,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function switchPlayer() {
     currentPlayer = currentPlayer === 1 ? 2 : 1;
-    currentPlayerElement.innerText = `Игрок ${currentPlayer}`;
+    currentPlayerElement.innerText =
+      currentPlayer === 1
+        ? player1NameElement.innerText
+        : player2NameElement.innerText;
 
     if (opponentType !== "human" && currentPlayer === 2) {
       setTimeout(computerPlay, 1000);
@@ -149,9 +165,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (player1Score + player2Score === cardsArray.length / 2) {
       let winner;
       if (player1Score > player2Score) {
-        winner = "Победил игрок 1!";
+        winner = `Победил ${player1NameElement.innerText}!`;
       } else if (player1Score < player2Score) {
-        winner = "Победил игрок 2!";
+        winner = `Победил ${player2NameElement.innerText}!`;
       } else {
         winner = "Ничья!";
       }
@@ -169,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
     currentPlayer = 1;
     player1ScoreElement.innerText = "0";
     player2ScoreElement.innerText = "0";
-    currentPlayerElement.innerText = "Игрок 1";
+    currentPlayerElement.innerText = player1NameElement.innerText;
     cardsArray = [];
     grid.innerHTML = "";
     document.getElementById("winModal").style.display = "none";
