@@ -31,18 +31,22 @@
     </script>
   </head>
   <body>
-    <div class="score">
-      <div class="player1">
-        <span id="player1Name">Игрок 1</span>: <span id="player1Score">0</span>
+    <main class="main">
+      <div class="score">
+        <div class="player1">
+          <span id="player1Name">Игрок 1</span>:
+          <span id="player1Score">0</span>
+        </div>
+        <div class="current-turn">
+          Ход: <span id="currentPlayer">Игрок 1</span>
+        </div>
+        <div class="player2">
+          <span id="player2Name">Игрок 2</span>:
+          <span id="player2Score">0</span>
+        </div>
       </div>
-      <div class="current-turn">
-        Ход: <span id="currentPlayer">Игрок 1</span>
-      </div>
-      <div class="player2">
-        <span id="player2Name">Игрок 2</span>: <span id="player2Score">0</span>
-      </div>
-    </div>
-    <div class="grid"></div>
+      <div class="grid"></div>
+    </main>
 
     <div class="modal settings" id="settingsModal">
       <div class="modal-content">
