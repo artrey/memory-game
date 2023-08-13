@@ -1,4 +1,4 @@
-const maxBoradSize = 10;
+const maxBoradSize = 12;
 
 const availableBotsMemory = {
   "computer-random": 0,
@@ -179,6 +179,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  function adjustBoardSizeSelector(selectElement, maxSize) {
+    maxSize = Math.floor(maxSize / 2) * 2;
+    const options = Array.from(selectElement.children).map((x) =>
+      parseInt(x.value)
+    );
+    const maxOption = Math.max(...options);
+    if (maxOption !== maxSize) {
+      while (selectElement.firstChild) {
+        selectElement.removeChild(selectElement.firstChild);
+      }
+      for (let i = 2; i <= maxSize; i += 2) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.text = i;
+        selectElement.appendChild(option);
+      }
+    }
+  }
+
   function resetGame() {
     player1Score = 0;
     player2Score = 0;
@@ -188,6 +207,63 @@ document.addEventListener("DOMContentLoaded", function () {
     currentPlayerElement.innerText = player1NameElement.innerText;
     cardsArray = [];
     grid.innerHTML = "";
+    opponentType = "human";
+    botMemoryLength = 0;
+    botMemory = [];
+    firstCard = null;
+    secondCard = null;
+
+    const scoreElementSize = document
+      .getElementById("score")
+      .getBoundingClientRect();
+    const screenWidth =
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth;
+    const screenHeight =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
+    const availableWidth = screenWidth;
+    const availableHeight = screenHeight - scoreElementSize.height;
+
+    const tmpCard = document.createElement("div");
+    tmpCard.style.visibility = "hidden";
+    tmpCard.classList.add("card");
+    grid.appendChild(tmpCard);
+    const cardWidth = tmpCard.clientWidth;
+    const cardHeight = tmpCard.clientHeight;
+    grid.innerHTML = "";
+    const gridGap = parseFloat(
+      window.getComputedStyle(grid).getPropertyValue("gap").slice(0, -2)
+    );
+    console.log(
+      availableWidth,
+      availableHeight,
+      cardWidth,
+      cardHeight,
+      gridGap
+    );
+
+    const maxCardsHorizontally = Math.min(
+      maxBoradSize,
+      Math.floor((availableWidth - 2 * gridGap) / (cardWidth + gridGap))
+    );
+    const maxCardsVertically = Math.min(
+      maxBoradSize,
+      Math.floor((availableHeight - 2 * gridGap) / (cardHeight + gridGap))
+    );
+    console.log(maxCardsHorizontally, maxCardsVertically);
+
+    adjustBoardSizeSelector(
+      document.getElementById("fieldWidth"),
+      maxCardsHorizontally
+    );
+    adjustBoardSizeSelector(
+      document.getElementById("fieldHeight"),
+      maxCardsVertically
+    );
+
     document.getElementById("winModal").style.display = "none";
     document.getElementById("settingsModal").style.display = "flex";
   }
@@ -255,4 +331,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const index = values.indexOf(duplicated);
     return botMemory[index];
   }
+
+  resetGame();
 });

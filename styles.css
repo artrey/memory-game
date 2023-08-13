@@ -176,6 +176,10 @@ select:focus {
 
 @media screen and (max-width: 600px) and (orientation: portrait),
   screen and (max-height: 600px) and (orientation: landscape) {
+  .grid {
+    gap: 12px;
+  }
+
   .card {
     width: 54px;
     height: 54px;
@@ -184,5 +188,6 @@ select:focus {
   .score {
     font-size: 20px;
     padding: 10px;
+    height: 3em;
   }
 }
