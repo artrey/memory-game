@@ -11,7 +11,7 @@ openssl req -x509 -days 365 -new -key cert/key.pem -out cert/cert.pem
 # fill the form
 ```
 
-2. Add liveSrver https settings (`.vscode/settings.json`)
+2. Add liveServer https settings (`.vscode/settings.json`)
 
 ```json
 {
