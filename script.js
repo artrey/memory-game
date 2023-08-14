@@ -98,6 +98,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("playAgain").addEventListener("click", resetGame);
 
+  document
+    .getElementById("resetGameButton")
+    .addEventListener("click", function () {
+      document.getElementById("resetConfirmModal").style.display = "flex";
+    });
+
+  document
+    .getElementById("confirmReset")
+    .addEventListener("click", function () {
+      resetGame();
+      document.getElementById("resetConfirmModal").style.display = "none";
+    });
+
+  document.getElementById("cancelReset").addEventListener("click", function () {
+    document.getElementById("resetConfirmModal").style.display = "none";
+  });
+
   function flipCard() {
     if (
       this.classList.contains("flipped") ||
@@ -214,7 +231,10 @@ document.addEventListener("DOMContentLoaded", function () {
     secondCard = null;
 
     const scoreElementSize = document
-      .getElementById("score")
+      .querySelector(".score")
+      .getBoundingClientRect();
+    const resetElementSize = document
+      .querySelector(".reset-game")
       .getBoundingClientRect();
     const screenWidth =
       window.innerWidth ||
@@ -225,7 +245,8 @@ document.addEventListener("DOMContentLoaded", function () {
       document.documentElement.clientHeight ||
       document.body.clientHeight;
     const availableWidth = screenWidth;
-    const availableHeight = screenHeight - scoreElementSize.height;
+    const availableHeight =
+      screenHeight - scoreElementSize.height - resetElementSize.height;
 
     const tmpCard = document.createElement("div");
     tmpCard.style.visibility = "hidden";

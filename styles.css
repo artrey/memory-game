@@ -10,9 +10,13 @@ body {
 
 .main {
   display: grid;
-  grid-template-rows: max-content auto;
+  grid-template-rows: max-content max-content auto;
   height: 100%;
   width: 100%;
+}
+
+.reset-game {
+  justify-self: center;
 }
 
 .grid {
@@ -174,8 +178,8 @@ select:focus {
   box-shadow: none;
 }
 
-@media screen and (max-width: 600px) and (orientation: portrait),
-  screen and (max-height: 600px) and (orientation: landscape) {
+@media screen and (max-width: 590px) and (orientation: portrait),
+  screen and (max-height: 590px) and (orientation: landscape) {
   .grid {
     gap: 12px;
   }
@@ -188,6 +192,7 @@ select:focus {
   .score {
     font-size: 20px;
     padding: 10px;
-    height: 3em;
+    flex-direction: column;
+    gap: 10px;
   }
 }

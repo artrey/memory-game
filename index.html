@@ -32,7 +32,7 @@
   </head>
   <body>
     <main class="main">
-      <div id="score" class="score">
+      <div class="score">
         <div class="player1">
           <span id="player1Name">Игрок 1</span>:
           <span id="player1Score">0</span>
@@ -44,6 +44,9 @@
           <span id="player2Name">Игрок 2</span>:
           <span id="player2Score">0</span>
         </div>
+      </div>
+      <div class="reset-game">
+        <button id="resetGameButton">Сбросить текущую игру</button>
       </div>
       <div class="grid"></div>
     </main>
@@ -85,6 +88,17 @@
       <div class="modal-content">
         <h2 id="winnerAnnouncement"></h2>
         <button id="playAgain">Сыграть ещё раз</button>
+      </div>
+    </div>
+
+    <div class="modal" id="resetConfirmModal">
+      <div class="modal-content">
+        <h2>Сбросить игру?</h2>
+        <p>Вы уверены, что хотите сбросить текущую игру?</p>
+        <div class="modal-actions">
+          <button id="confirmReset">Да, сбросить</button>
+          <button id="cancelReset">Отмена</button>
+        </div>
       </div>
     </div>
 
