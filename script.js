@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let opponentType = "human";
   let botMemoryLength = 0;
   let botMemory = [];
+  let botIsPlaying = false;
 
   const player1ScoreElement = document.getElementById("player1Score");
   const player2ScoreElement = document.getElementById("player2Score");
@@ -123,13 +124,19 @@ document.addEventListener("DOMContentLoaded", function () {
       return; // Если карточка уже открыта или найдена, игнорируем клик
     }
 
+    if (botIsPlaying) return;
+
+    flipCardImplementation(this);
+  }
+
+  function flipCardImplementation(card) {
     if (firstCard === null) {
-      firstCard = this;
-      this.classList.add("flipped");
+      firstCard = card;
+      card.classList.add("flipped");
       tryAddCardToBotMemory(firstCard);
     } else if (secondCard === null) {
-      secondCard = this;
-      this.classList.add("flipped");
+      secondCard = card;
+      card.classList.add("flipped");
 
       if (firstCard.dataset.value === secondCard.dataset.value) {
         firstCard.classList.add("matched");
@@ -174,7 +181,10 @@ document.addEventListener("DOMContentLoaded", function () {
         : player2NameElement.innerText;
 
     if (opponentType !== "human" && currentPlayer === 2) {
+      botIsPlaying = true;
       setTimeout(computerPlay, 1000);
+    } else {
+      botIsPlaying = false;
     }
   }
 
@@ -229,6 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
     botMemory = [];
     firstCard = null;
     secondCard = null;
+    botIsPlaying = false;
 
     const scoreElementSize = document
       .querySelector(".score")
@@ -320,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     setTimeout(() => {
-      selectedCard.click();
+      flipCardImplementation(selectedCard);
       if (currentPlayer !== 2) return;
       computerPlay();
     }, 700);
