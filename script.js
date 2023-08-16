@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Функция инициализации игры
   function initializeGame(width, height, opponentType_) {
+    resetState();
+
     // Закрыть модальное окно настроек
     document.getElementById("settingsModal").style.display = "none";
 
@@ -225,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function resetGame() {
+  function resetState() {
     player1Score = 0;
     player2Score = 0;
     currentPlayer = 1;
@@ -240,6 +242,10 @@ document.addEventListener("DOMContentLoaded", function () {
     firstCard = null;
     secondCard = null;
     botIsPlaying = false;
+  }
+
+  function resetGame() {
+    resetState();
 
     const scoreElementSize = document
       .querySelector(".score")
@@ -308,6 +314,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function computerPlay() {
+    if (currentPlayer !== 2) return;
+
     let unflippedCards = Array.from(
       document.querySelectorAll(".card:not(.flipped)")
     );
