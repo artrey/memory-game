@@ -269,13 +269,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const gridGap = parseFloat(
       window.getComputedStyle(grid).getPropertyValue("gap").slice(0, -2)
     );
-    console.log(
-      availableWidth,
-      availableHeight,
-      cardWidth,
-      cardHeight,
-      gridGap
-    );
 
     const maxCardsHorizontally = Math.min(
       maxBoradSize,
@@ -285,7 +278,6 @@ document.addEventListener("DOMContentLoaded", function () {
       maxBoradSize,
       Math.floor((availableHeight - 2 * gridGap) / (cardHeight + gridGap))
     );
-    console.log(maxCardsHorizontally, maxCardsVertically);
 
     adjustBoardSizeSelector(
       document.getElementById("fieldWidth"),
