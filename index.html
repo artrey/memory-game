@@ -24,6 +24,7 @@
             .then((yaGamePlayer) => {
               player1NameElement.innerText = yaGamePlayer.getName();
               currentPlayerElement.innerText = player1NameElement.innerText;
+              ysdk.features.LoadingAPI?.ready();
             })
             .catch(console.log);
         })
