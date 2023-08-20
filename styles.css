@@ -36,6 +36,8 @@ body {
   justify-items: center;
   align-items: center;
   gap: 15px;
+  transform: translate3d(0,0,0);
+  -webkit-transform: translate3d(0,0,0);
 }
 
 .card {
