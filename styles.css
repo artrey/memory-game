@@ -39,7 +39,6 @@ body {
 }
 
 .card {
-  background-color: #f0f0f0;
   width: 60px;
   height: 60px;
   transform-style: preserve-3d;
@@ -70,6 +69,7 @@ body {
 }
 
 .card .back {
+  background-color: #f0f0f0;
   transform: rotateY(180deg);
 }
 
