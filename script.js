@@ -36,6 +36,33 @@ document.addEventListener("DOMContentLoaded", function () {
   const player2NameElement = document.getElementById("player2Name");
   const currentPlayerElement = document.getElementById("currentPlayer");
 
+  window.addEventListener(
+    "resize",
+    function () {
+      if (document.getElementById("settingsModal").style.display === "flex") {
+        adjustBoardSelectors();
+      } else {
+        const scoreHeight = document
+          .querySelector(".score")
+          .getBoundingClientRect().height;
+        const resetHeight = document
+          .querySelector(".reset-game")
+          .getBoundingClientRect().height;
+        if (
+          grid.getBoundingClientRect().height + scoreHeight + resetHeight + 10 >
+          window.innerHeight
+        ) {
+          document.getElementById("tooSmallScreen").style.display = "flex";
+          document.querySelector(".main").style.visibility = "hidden";
+        } else {
+          document.querySelector(".main").style.visibility = "unset";
+          document.getElementById("tooSmallScreen").style.display = "none";
+        }
+      }
+    },
+    true
+  );
+
   // Функция инициализации игры
   function initializeGame(width, height, opponentType_) {
     resetState();
@@ -100,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.getElementById("playAgain").addEventListener("click", resetGame);
+  document.getElementById("newGameButton").addEventListener("click", resetGame);
 
   document
     .getElementById("resetGameButton")
@@ -244,9 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
     botIsPlaying = false;
   }
 
-  function resetGame() {
-    resetState();
-
+  function adjustBoardSelectors() {
     const scoreElementSize = document
       .querySelector(".score")
       .getBoundingClientRect();
@@ -293,9 +319,16 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("fieldHeight"),
       maxCardsVertically
     );
+  }
 
+  function resetGame() {
+    resetState();
+    adjustBoardSelectors();
+
+    document.querySelector(".main").style.visibility = "unset";
     document.getElementById("winModal").style.display = "none";
     document.getElementById("settingsModal").style.display = "flex";
+    document.getElementById("tooSmallScreen").style.display = "none";
   }
 
   function shuffle(array) {
